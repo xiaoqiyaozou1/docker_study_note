@@ -86,6 +86,8 @@ xxxxxx
 
 ## 镜像命令
 
+![image-20221005162241670](C:\Users\qishou\AppData\Roaming\Typora\typora-user-images\image-20221005162241670.png)
+
 > [root@iZbp1d3xjg2fnxprjt05glZ ~]# docker images
 > REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
 > hello-world   latest    d1165f221234   19 months ago   13.3kB
@@ -578,3 +580,696 @@ root@af56584fb4a0:/etc/nginx#
 
 ```
 
+## 容器数据卷
+
+> 命令挂载
+>
+> ```she
+> docker run -it -v 主机目录:容器目录 
+> 
+> [root@iZbp1d3xjg2fnxprjt05glZ home]# docker run -it -v /home/xiaoqi_dir:/home centos /bin/bash
+> [root@7d066d1bf6ed /]# [root@iZbp1d3xjg2fnxprjt05glZ home]# 
+> [root@iZbp1d3xjg2fnxprjt05glZ home]# docker ps
+> CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+> 7d066d1bf6ed   centos    "/bin/bash"              17 seconds ago   Up 15 seconds                                           beautiful_moser
+> af56584fb4a0   nginx     "/docker-entrypoint.…"   10 hours ago     Up 10 hours     0.0.0.0:5011->80/tcp, :::5011->80/tcp   beautiful_bohr
+> [root@iZbp1d3xjg2fnxprjt05glZ home]# docker inspect 7d066d1bf6ed  
+> [
+>     {
+>         "Id": "7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be",
+>         "Created": "2022-10-05T03:19:33.847283876Z",
+>         "Path": "/bin/bash",
+>         "Args": [],
+>         "State": {
+>             "Status": "running",
+>             "Running": true,
+>             "Paused": false,
+>             "Restarting": false,
+>             "OOMKilled": false,
+>             "Dead": false,
+>             "Pid": 30272,
+>             "ExitCode": 0,
+>             "Error": "",
+>             "StartedAt": "2022-10-05T03:19:34.224852399Z",
+>             "FinishedAt": "0001-01-01T00:00:00Z"
+>         },
+>         "Image": "sha256:5d0da3dc976460b72c77d94c8a1ad043720b0416bfc16c52c45d4847e53fadb6",
+>         "ResolvConfPath": "/var/lib/docker/containers/7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be/resolv.conf",
+>         "HostnamePath": "/var/lib/docker/containers/7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be/hostname",
+>         "HostsPath": "/var/lib/docker/containers/7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be/hosts",
+>         "LogPath": "/var/lib/docker/containers/7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be/7d066d1bf6edaf8989288892b88b832480bae7d4d0eac5884c427f81b66432be-json.log",
+>         "Name": "/beautiful_moser",
+>         "RestartCount": 0,
+>         "Driver": "overlay2",
+>         "Platform": "linux",
+>         "MountLabel": "",
+>         "ProcessLabel": "",
+>         "AppArmorProfile": "",
+>         "ExecIDs": null,
+>         "HostConfig": {
+>             "Binds": [
+>                 "/home/xiaoqi_dir:/home"
+>             ],
+>             "ContainerIDFile": "",
+>             "LogConfig": {
+>                 "Type": "json-file",
+>                 "Config": {}
+>             },
+>             "NetworkMode": "default",
+>             "PortBindings": {},
+>             "RestartPolicy": {
+>                 "Name": "no",
+>                 "MaximumRetryCount": 0
+>             },
+>             "AutoRemove": false,
+>             "VolumeDriver": "",
+>             "VolumesFrom": null,
+>             "CapAdd": null,
+>             "CapDrop": null,
+>             "CgroupnsMode": "host",
+>             "Dns": [],
+>             "DnsOptions": [],
+>             "DnsSearch": [],
+>             "ExtraHosts": null,
+>             "GroupAdd": null,
+>             "IpcMode": "private",
+>             "Cgroup": "",
+>             "Links": null,
+>             "OomScoreAdj": 0,
+>             "PidMode": "",
+>             "Privileged": false,
+>             "PublishAllPorts": false,
+>             "ReadonlyRootfs": false,
+>             "SecurityOpt": null,
+>             "UTSMode": "",
+>             "UsernsMode": "",
+>             "ShmSize": 67108864,
+>             "Runtime": "runc",
+>             "ConsoleSize": [
+>                 0,
+>                 0
+>             ],
+>             "Isolation": "",
+>             "CpuShares": 0,
+>             "Memory": 0,
+>             "NanoCpus": 0,
+>             "CgroupParent": "",
+>             "BlkioWeight": 0,
+>             "BlkioWeightDevice": [],
+>             "BlkioDeviceReadBps": null,
+>             "BlkioDeviceWriteBps": null,
+>             "BlkioDeviceReadIOps": null,
+>             "BlkioDeviceWriteIOps": null,
+>             "CpuPeriod": 0,
+>             "CpuQuota": 0,
+>             "CpuRealtimePeriod": 0,
+>             "CpuRealtimeRuntime": 0,
+>             "CpusetCpus": "",
+>             "CpusetMems": "",
+>             "Devices": [],
+>             "DeviceCgroupRules": null,
+>             "DeviceRequests": null,
+>             "KernelMemory": 0,
+>             "KernelMemoryTCP": 0,
+>             "MemoryReservation": 0,
+>             "MemorySwap": 0,
+>             "MemorySwappiness": null,
+>             "OomKillDisable": false,
+>             "PidsLimit": null,
+>             "Ulimits": null,
+>             "CpuCount": 0,
+>             "CpuPercent": 0,
+>             "IOMaximumIOps": 0,
+>             "IOMaximumBandwidth": 0,
+>             "MaskedPaths": [
+>                 "/proc/asound",
+>                 "/proc/acpi",
+>                 "/proc/kcore",
+>                 "/proc/keys",
+>                 "/proc/latency_stats",
+>                 "/proc/timer_list",
+>                 "/proc/timer_stats",
+>                 "/proc/sched_debug",
+>                 "/proc/scsi",
+>                 "/sys/firmware"
+>             ],
+>             "ReadonlyPaths": [
+>                 "/proc/bus",
+>                 "/proc/fs",
+>                 "/proc/irq",
+>                 "/proc/sys",
+>                 "/proc/sysrq-trigger"
+>             ]
+>         },
+>         "GraphDriver": {
+>             "Data": {
+>                 "LowerDir": "/var/lib/docker/overlay2/311f5fef889cce0dbe5a4e1f661b6194accba7dc55a7243d44e2b6538fc29dd7-init/diff:/var/lib/docker/overlay2/030af70baf09379ab48e30544e0d56ab1b4a047173c488b463a379bce0a4f081/diff",
+>                 "MergedDir": "/var/lib/docker/overlay2/311f5fef889cce0dbe5a4e1f661b6194accba7dc55a7243d44e2b6538fc29dd7/merged",
+>                 "UpperDir": "/var/lib/docker/overlay2/311f5fef889cce0dbe5a4e1f661b6194accba7dc55a7243d44e2b6538fc29dd7/diff",
+>                 "WorkDir": "/var/lib/docker/overlay2/311f5fef889cce0dbe5a4e1f661b6194accba7dc55a7243d44e2b6538fc29dd7/work"
+>             },
+>             "Name": "overlay2"
+>         },
+>         "Mounts": [       #这块 就是挂在的信息
+>             {
+>                 "Type": "bind",
+>                 "Source": "/home/xiaoqi_dir",
+>                 "Destination": "/home",
+>                 "Mode": "",
+>                 "RW": true,
+>                 "Propagation": "rprivate"
+>             }
+>         ],
+>         "Config": {
+>             "Hostname": "7d066d1bf6ed",
+>             "Domainname": "",
+>             "User": "",
+>             "AttachStdin": true,
+>             "AttachStdout": true,
+>             "AttachStderr": true,
+>             "Tty": true,
+>             "OpenStdin": true,
+>             "StdinOnce": true,
+>             "Env": [
+>                 "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+>             ],
+>             "Cmd": [
+>                 "/bin/bash"
+>             ],
+>             "Image": "centos",
+>             "Volumes": null,
+>             "WorkingDir": "",
+>             "Entrypoint": null,
+>             "OnBuild": null,
+>             "Labels": {
+>                 "org.label-schema.build-date": "20210915",
+>                 "org.label-schema.license": "GPLv2",
+>                 "org.label-schema.name": "CentOS Base Image",
+>                 "org.label-schema.schema-version": "1.0",
+>                 "org.label-schema.vendor": "CentOS"
+>             }
+>         },
+>         "NetworkSettings": {
+>             "Bridge": "",
+>             "SandboxID": "c9509fcde51845a61051d9c9cf7350c72dcb2a19f0c7ffaf7dc082cd9a01701f",
+>             "HairpinMode": false,
+>             "LinkLocalIPv6Address": "",
+>             "LinkLocalIPv6PrefixLen": 0,
+>             "Ports": {},
+>             "SandboxKey": "/var/run/docker/netns/c9509fcde518",
+>             "SecondaryIPAddresses": null,
+>             "SecondaryIPv6Addresses": null,
+>             "EndpointID": "be491bed18abfbe6bdfd35ebacc1ada1e51ef587fe3f34a8126d5bdcc4465077",
+>             "Gateway": "172.18.0.1",
+>             "GlobalIPv6Address": "",
+>             "GlobalIPv6PrefixLen": 0,
+>             "IPAddress": "172.18.0.3",
+>             "IPPrefixLen": 16,
+>             "IPv6Gateway": "",
+>             "MacAddress": "02:42:ac:12:00:03",
+>             "Networks": {
+>                 "bridge": {
+>                     "IPAMConfig": null,
+>                     "Links": null,
+>                     "Aliases": null,
+>                     "NetworkID": "9f8b1799a7346caa299f944cf527c761e626dfa02beba1cd616fcd25342fd3c0",
+>                     "EndpointID": "be491bed18abfbe6bdfd35ebacc1ada1e51ef587fe3f34a8126d5bdcc4465077",
+>                     "Gateway": "172.18.0.1",
+>                     "IPAddress": "172.18.0.3",
+>                     "IPPrefixLen": 16,
+>                     "IPv6Gateway": "",
+>                     "GlobalIPv6Address": "",
+>                     "GlobalIPv6PrefixLen": 0,
+>                     "MacAddress": "02:42:ac:12:00:03",
+>                     "DriverOpts": null
+>                 }
+>             }
+>         }
+>     }
+> ]
+> 
+> 
+> ```
+>
+
+## mysql 部署
+
+> https://hub.docker.com/_/mysql  #参考地址
+
+#指定版本下载mysql
+
+```shell
+docker pull mysql:5.7 
+#启动
+-v 数据卷绑定
+-p 端口映射
+-d 后台运行
+-e 环境配置
+--name 设置名字
+docker run -it --name xiaoqi_mysql -e MYSQL_ROOT_PASSWORD=123456 -v /home/xiaoqi_mysql/conf:/etc/mysql/conf.d  -v /home/xiaoqi_mysql/data:/var/lib/mysql -p 5012:3306 -d mysql:5.7
+```
+
+#官方直接下载启动
+
+> ```console
+> docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+> ```
+
+## 具名挂载 和匿名挂载
+
+```shell
+-v name:容器内路径 	#居名挂载
+docker run --name my-nginx01 -v xqname:/etc/nginx/ -d nginx
+-v 容器内路径		#匿名挂载
+docker run --name my-nginx -v /etc/nginx/ -d nginx
+#默认存储路径 
+# ro rw 设置权限
+/etc/nginx:ro
+
+/var/lib/docker/volumes/
+-v 宿主机路径:容器内路径 #指定路径挂载
+```
+
+卷共享
+
+>  docker run --name my-nginx01 -v xqname:/etc/nginx/ -d nginx	
+>
+>  docker run --name my-nginx02  -d nginx --volumes-from my-nginx01
+
+
+
+
+
+## Doeckerfile
+
+![image-20221005162241670](C:\Users\qishou\AppData\Roaming\Typora\typora-user-images\image-20221005162241670.png)
+
+#### dockerfile 指令
+
+![image-20221005171730548](C:\Users\qishou\AppData\Roaming\Typora\typora-user-images\image-20221005171730548.png)
+
+#### asp.net core 发布成docker镜像
+
+```shell
+1、将项目发布到指定文件下
+2、复制Dockefile 文件 并修改内容如下
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+COPY . .
+ENTRYPOINT ["dotnet", "DockerDemo.dll"]
+3、查看生成好得镜像 docker image ls
+PS D:\Code\C#\xx> docker image ls
+REPOSITORY                        TAG       IMAGE ID       CREATED          SIZE
+dockerdemo                        0.1       87ff54bd8a52   7 minutes ago    212MB
+dockerdemo                        latest    87ff54bd8a52   7 minutes ago    212MB
+<none>                            <none>    3887d38bf080   10 minutes ago   212MB
+dockerdemo                        dev       5b130ccb74ab   11 hours ago     208MB
+mcr.microsoft.com/dotnet/aspnet   6.0       62535cb3fa6e   2 days ago       208MB
+4、运行镜像
+docker run -dit -p 8000:80 87ff54bd8a52
+```
+
+
+
+## Docker 网络
+
+### 默认网络测试
+
+#查看Docker 得网络
+
+> [root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network ls
+> NETWORK ID     NAME      DRIVER    SCOPE
+> 9f8b1799a734   bridge    bridge    local
+> 94f9d0724efb   host      host      local
+> 655a8bcafc9a   none      null      local
+
+ #运行 两个 alpine
+
+```shell
+ docker run -dit --name alpine1 alpine ash
+ docker run -dit --name alpine2 alpine ash
+```
+
+ 进入容器内部 ip addr 查看ip 地址
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker attach alpine2
+/ # ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+36: eth0@if37: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 02:42:ac:12:00:03 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.0.3/16 brd 172.18.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+
+```
+
+>  #ping 测试 
+>
+> [root@iZbp1d3xjg2fnxprjt05glZ ~]# docker attach alpine1
+> / # ping -c 2 172.18.0.3
+> PING 172.18.0.3 (172.18.0.3): 56 data bytes
+> 64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.124 ms
+> 64 bytes from 172.18.0.3: seq=1 ttl=64 time=0.085 ms
+>
+> --- 172.18.0.3 ping statistics ---
+
+直接通过ip 可以测试通过 
+
+ 1、通过容器名测试
+
+```shell
+/ # ping -c 2 alpine2
+ping: bad address 'alpine2'
+失败
+```
+
+这个问题 官方建议 不要用默认得 bridge network 要用自定义得 network
+
+移除 刚才得两个容器
+
+```shell
+docker container stop alpine1 alpine2
+docker container rm alpine1 alpine2
+```
+
+### 自定义网络测试
+
+1、创建网络并查看信息
+
+```shell
+root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network create --driver bridge alpine-net
+09f00b029889d491dd5fe2a2d5db8473d45f26d9d0246c1e82938cc56d0d3b18
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network ls
+NETWORK ID     NAME         DRIVER    SCOPE
+09f00b029889   alpine-net   bridge    local
+9f8b1799a734   bridge       bridge    local
+94f9d0724efb   host         host      local
+655a8bcafc9a   none         null      local
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network inspect alpine-net
+[
+    {
+        "Name": "alpine-net",
+        "Id": "09f00b029889d491dd5fe2a2d5db8473d45f26d9d0246c1e82938cc56d0d3b18",
+        "Created": "2022-10-07T00:28:24.048259931+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# 
+
+```
+
+2 、启动测试容器  
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker run -dit --name alpine1 --network alpine-net alpine ash
+818a400f4adefa49aa37f8ec456ce5c43ef4c658f247468f44134953cfe3b9c0
+[root@iZbp1d3xjg2fnxprjt05glZ ~]#  docker run -dit --name alpine2 --network alpine-net alpine ash
+b141922a613e996484dea8b33b82ca98ae9f7ca3f6d3b69eb222a29508cab00a
+[root@iZbp1d3xjg2fnxprjt05glZ ~]#  docker run -dit --name alpine3 alpine ash
+4ccbcccbebebed57546952a9669d54bea6b43859aa52fc7ce297f28210a35a1c
+[root@iZbp1d3xjg2fnxprjt05glZ ~]#  docker run -dit --name alpine4 --network alpine-net alpine ash
+81f1ad808419cd32612532be382e186fde50802e0fa36047e857d2992d3e1bbd
+[root@iZbp1d3xjg2fnxprjt05glZ ~]#  docker network connect bridge alpine4
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# 
+ # --network 指定所用得网络  如果不指定 则使用默认得 bridge
+ 
+ # network connect 可以将不在同一个网络得容器连接起来
+```
+
+
+
+3 、查看默认网络 和自定义网络
+
+3.1 查看自定义网络
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network inspect alpine-net
+[
+    {
+        "Name": "alpine-net",
+        "Id": "09f00b029889d491dd5fe2a2d5db8473d45f26d9d0246c1e82938cc56d0d3b18",
+        "Created": "2022-10-07T00:28:24.048259931+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "818a400f4adefa49aa37f8ec456ce5c43ef4c658f247468f44134953cfe3b9c0": {
+                "Name": "alpine1",
+                "EndpointID": "67e8e9f5672fd5b106b5d1fd06c5cc40c679e445a8c5936eccbb9f247549f57c",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            },
+            "81f1ad808419cd32612532be382e186fde50802e0fa36047e857d2992d3e1bbd": {
+                "Name": "alpine4",
+                "EndpointID": "16892c442bf7811331c8ad00abeac6b5bebf8fe7833c09b7d93239e2909b8b89",
+                "MacAddress": "02:42:ac:13:00:04",
+                "IPv4Address": "172.19.0.4/16",
+                "IPv6Address": ""
+            },
+            "b141922a613e996484dea8b33b82ca98ae9f7ca3f6d3b69eb222a29508cab00a": {
+                "Name": "alpine2",
+                "EndpointID": "40b355704c5e065267949c7e6d1e6936c4364d08b96560b5c15d0fd4509286e8",
+                "MacAddress": "02:42:ac:13:00:03",
+                "IPv4Address": "172.19.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+```
+
+  可以看到 比原来给多了三个 alpine1 alpine2 alpine4
+
+这三个网络网段一样，不近可以通过ip 地址互通 也可以通过容器名字胡同
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker attach alpine1
+/ # ping -c 2 alpine2
+PING alpine2 (172.19.0.3): 56 data bytes
+64 bytes from 172.19.0.3: seq=0 ttl=64 time=0.096 ms
+64 bytes from 172.19.0.3: seq=1 ttl=64 time=0.100 ms
+
+--- alpine2 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.096/0.098/0.100 ms
+/ # 
+
+```
+
+alpine1  不能通过ip 和容器名 连接alpine3 因为两个不在同一网段
+
+apline4 可以连接alpine4 是因为 alpine4 被连接到默认网关
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker attach alpine1
+/ # ping -c 2 alpine4
+PING alpine4 (172.19.0.4): 56 data bytes
+64 bytes from 172.19.0.4: seq=0 ttl=64 time=0.093 ms
+64 bytes from 172.19.0.4: seq=1 ttl=64 time=0.090 ms
+
+--- alpine4 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+```
+
+3.2 查看默认网关
+
+```shell
+[root@iZbp1d3xjg2fnxprjt05glZ ~]# docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "9f8b1799a7346caa299f944cf527c761e626dfa02beba1cd616fcd25342fd3c0",
+        "Created": "2022-10-04T20:13:30.44840707+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "4ccbcccbebebed57546952a9669d54bea6b43859aa52fc7ce297f28210a35a1c": {
+                "Name": "alpine3",
+                "EndpointID": "fb8fea2100a8d4c8e78e2577aaa89e91548aa4c02d57b0e4ce7090f5a9a50c9b",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            },
+            "81f1ad808419cd32612532be382e186fde50802e0fa36047e857d2992d3e1bbd": {
+                "Name": "alpine4",
+                "EndpointID": "e627d1aec07fd1b32a53e53637ac2bb1d02343a62ed09925719231672310c4af",
+                "MacAddress": "02:42:ac:12:00:03",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+
+```
+
+可以看到 alpine4  拥有      "IPv4Address": "172.19.0.4/16" 和 IPv4Address": "172.18.0.3/16", 两个ip 地址 所以 两个都可以访问
+
+在容器 alpine4 里 网络测试 可以 通过ip 访问所有得容器 也可以通过容器名 访问alpine1 和2 但是不能访问3 因为3得网段 只存在默认得docker0 上 docker0 是不支持容器名访问得
+
+测试ping alpine3
+
+```shell
+/ # ping -c 2 172.18.0.2
+PING 172.18.0.2 (172.18.0.2): 56 data bytes
+64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.112 ms
+64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.101 ms
+
+--- 172.18.0.2 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.101/0.106/0.112 ms
+/ # ping -c 2 alpine3
+ping: bad address 'alpine3'
+/ # 
+
+```
+
+测试ping alpine1
+
+```shell
+/ # ping -c 2 172.19.0.2
+PING 172.19.0.2 (172.19.0.2): 56 data bytes
+64 bytes from 172.19.0.2: seq=0 ttl=64 time=0.087 ms
+64 bytes from 172.19.0.2: seq=1 ttl=64 time=0.096 ms
+
+--- 172.19.0.2 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.087/0.091/0.096 ms
+/ # ping -c 2 alpine1
+PING alpine1 (172.19.0.2): 56 data bytes
+64 bytes from 172.19.0.2: seq=0 ttl=64 time=0.058 ms
+64 bytes from 172.19.0.2: seq=1 ttl=64 time=0.101 ms
+
+--- alpine1 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.058/0.079/0.101 ms
+/ # 
+
+```
+
+移除测试得容器 和自定义网络
+
+```shell
+docker container stop alpine1 alpine2 alpine3 alpine4
+docker container rm alpine1 alpine2 alpine3 alpine4
+docker network rm alpine-net
+```
+
+
+
+
+
+## Docker 导出 导入
+
+对容器导出导入
+
+```shell
+1、导出
+docker export red_panda > latest.tar
+docker export --output="latest.tar" red_panda
+2、导入
+docker import /path/to/exampleimage.tgz
+```
+
+对镜像导入导出
+
+```shell
+1、保存到指定文件下
+docker save -o D:\Code\C#\xx\dockerdemo.tar dockerdemo:0.1
+2、复制到服务器 load 到docker 中
+[root@iZbp1d3xjg2fnxprjt05glZ home]# ls
+dockerdemo.tar  downloads  mysql  test.txt  xiaoqi_dir2  xiaoqi_mysql  xiaoqi.txt
+[root@iZbp1d3xjg2fnxprjt05glZ home]# docker load -i dockerdemo.tar
+fe7b1e9bf792: Loading layer [==================================================>]  84.01MB/84.01MB
+86febf79b6c0: Loading layer [==================================================>]  36.52MB/36.52MB
+8d3c7c2d0b0f: Loading layer [==================================================>]  70.75MB/70.75MB
+0aad7b3e5401: Loading layer [==================================================>]   2.56kB/2.56kB
+82edbe9d7b93: Loading layer [==================================================>]  20.36MB/20.36MB
+846a78100f8f: Loading layer [==================================================>]  2.048kB/2.048kB
+2a93ca962e8d: Loading layer [==================================================>]  4.195MB/4.195MB
+Loaded image: dockerdemo:0.1
+3、查看镜像
+[root@iZbp1d3xjg2fnxprjt05glZ home]# docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+dockerdemo    0.1       87ff54bd8a52   37 minutes ago   212MB
+4、运行
+[root@iZbp1d3xjg2fnxprjt05glZ home]# docker run -dit -p 5015:80 dockerdemo:0.1
+6c58e8892fe09aad1ec91e9d33d6368d9bff5ff7224b0c27d4cae944fc0eea02
+
+```
+
+## Docker Compose
